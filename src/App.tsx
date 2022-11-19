@@ -1,10 +1,10 @@
 import React from 'react';
-import './App.css';
+import styles from './App.module.css';
 import TimePick from './components/TimePick/TimePick';
 
 function App() {
   return (
-    <div className="time-picker">
+    <div className={styles.layout}>
       <TimePick />
     </div>
   );
