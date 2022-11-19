@@ -11,17 +11,23 @@ function TimePick() {
   const [remainTime, setRemainTime] = useState(0);
   const [reserve, setReserve] = useState(false);
 
+  const img = '../../icon.png';
+
   useEffect(() => {
     const notifyMyApp = () => {
       if (!('Notification' in window)) {
         // eslint-disable-next-line no-alert
         alert('このブラウザは通知に対応していません。');
       } else if (Notification.permission === 'granted') {
-        const notification = new Notification('通知許可ありがとう。');
+        const notification = new Notification('通知許可ありがとう。', {
+          icon: img,
+        });
       } else if (Notification.permission !== 'denied') {
         Notification.requestPermission().then((permission) => {
           if (permission === 'granted') {
-            const notification = new Notification('通知許可ありがとう。');
+            const notification = new Notification('通知許可ありがとう。', {
+              icon: img,
+            });
           }
         });
       }
@@ -46,13 +52,18 @@ function TimePick() {
     const diffTimeSec = Math.floor(diffTime / 1000);
     // eslint-disable-next-line no-new
     new Notification(
-      `このあと${pushTime(date)}に通知するよ。(${diffTimeSec}秒後)`
+      `このあと${pushTime(date)}に通知するよ。(${diffTimeSec}秒後)`,
+      {
+        icon: img,
+      }
     );
     setRemainTime(diffTimeSec);
 
     setTimeout(() => {
       // eslint-disable-next-line no-new
-      new Notification(`お時間ですよ。${pushTime(date)}になりました。`);
+      new Notification(`お時間ですよ。${pushTime(date)}になりました。`, {
+        icon: img,
+      });
       setReserve(false);
     }, diffTime);
   };

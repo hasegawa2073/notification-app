@@ -1,11 +1,15 @@
 {
   "short_name": "お時間ですよ。",
-  "name": "通知リマインダー お時間ですよ。",
+  "name": "お時間ですよ。",
   "icons": [
     {
       "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
+      "sizes": "256x256",
       "type": "image/x-icon"
+    },
+    {
+      "src": "icon.png",
+      "sizes": "512x512"
     }
   ],
   "start_url": "/",
