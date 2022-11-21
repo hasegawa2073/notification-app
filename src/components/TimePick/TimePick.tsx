@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './TimePick.module.css';
 
 function TimePick() {
+  const now = new Date();
   const [time, setTime] = useState(new Date());
   const [remainTime, setRemainTime] = useState(0);
   const [reserve, setReserve] = useState(false);
@@ -85,7 +86,7 @@ function TimePick() {
 
   return (
     <div>
-      {reserve ? <p>{remainTime}秒後に通知します</p> : ''}
+      {reserve ? <p>{remainTime}秒後に通知するよ</p> : ''}
       <div>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <TimePicker
@@ -101,13 +102,20 @@ function TimePick() {
           />
         </LocalizationProvider>
       </div>
-      <button
-        type="button"
-        className={styles.button}
-        onClick={() => push(time)}
-      >
-        通知を予約する
-      </button>
+      {now.getTime() < time.getTime() ? (
+        <button
+          type="button"
+          className={styles.button}
+          onClick={() => push(time)}
+          onTouchEnd={() => push(time)}
+        >
+          通知を予約する
+        </button>
+      ) : (
+        <button type="button" className={styles.buttonDisable}>
+          未来の時間を指定してね
+        </button>
+      )}
     </div>
   );
 }
