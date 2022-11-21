@@ -16,6 +16,10 @@
 
 そこで、音ではなくて視覚的に教えてくれるアプリケーションを作ろうと思った。
 
+## 使用技術
+- React
+- TypeScript
+
 ## 成果物
 通知アプリ「お時間ですよ。」<br />
 [https://notification-app-ruddy.vercel.app/](https://notification-app-ruddy.vercel.app/)<br />
