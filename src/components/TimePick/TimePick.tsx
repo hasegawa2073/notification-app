@@ -11,7 +11,8 @@ function TimePick() {
   const [remainTime, setRemainTime] = useState(0);
   const [reserve, setReserve] = useState(false);
 
-  const img = '../../icon.png';
+  const iconPath = '../../icon.png';
+  const imagePath = '../../image.png';
 
   useEffect(() => {
     const notifyMyApp = () => {
@@ -19,14 +20,22 @@ function TimePick() {
         // eslint-disable-next-line no-alert
         alert('このブラウザは通知に対応していません。');
       } else if (Notification.permission === 'granted') {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const notification = new Notification('通知許可ありがとう。', {
-          icon: img,
+          body: '通知アプリ「お時間ですよ。」より',
+          image: imagePath,
+          icon: iconPath,
+          silent: true,
         });
       } else if (Notification.permission !== 'denied') {
         Notification.requestPermission().then((permission) => {
           if (permission === 'granted') {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const notification = new Notification('通知許可ありがとう。', {
-              icon: img,
+              body: '通知アプリ「お時間ですよ。」より',
+              image: imagePath,
+              icon: iconPath,
+              silent: true,
             });
           }
         });
@@ -42,27 +51,33 @@ function TimePick() {
     return () => clearInterval(id);
   }, [remainTime]);
 
-  const pushHours = (date: any) => new Date(date).getHours();
-  const pushMinutes = (date: any) => new Date(date).getMinutes();
-  const pushTime = (date: any) => `${pushHours(date)}:${pushMinutes(date)}`;
+  const pushHours = (date: string | number | Date) => new Date(date).getHours();
+  const pushMinutes = (date: string | number | Date) =>
+    new Date(date).getMinutes();
+  const pushTime = (date: string | number | Date) =>
+    `${pushHours(date)}:${pushMinutes(date)}`;
 
-  const push = (date: any) => {
+  const push = (date: string | number | Date) => {
     setReserve(true);
     const diffTime = new Date(date).getTime() - new Date().getTime();
     const diffTimeSec = Math.floor(diffTime / 1000);
     // eslint-disable-next-line no-new
-    new Notification(
-      `このあと${pushTime(date)}に通知するよ。(${diffTimeSec}秒後)`,
-      {
-        icon: img,
-      }
-    );
+    new Notification('通知を予約したよ。', {
+      body: `このあと${pushTime(date)}に通知するよ。(${diffTimeSec}秒後)`,
+      image: imagePath,
+      icon: iconPath,
+      silent: true,
+    });
     setRemainTime(diffTimeSec);
 
     setTimeout(() => {
       // eslint-disable-next-line no-new
-      new Notification(`お時間ですよ。${pushTime(date)}になりました。`, {
-        icon: img,
+      new Notification('お時間ですよ。', {
+        body: `${pushTime(date)}になりました。`,
+        image: imagePath,
+        icon: iconPath,
+        requireInteraction: true,
+        silent: true,
       });
       setReserve(false);
     }, diffTime);
@@ -77,7 +92,9 @@ function TimePick() {
             label="通知する時間"
             value={time}
             onChange={(newTime) => {
-              setTime(newTime as any);
+              if (newTime) {
+                setTime(newTime);
+              }
             }}
             // eslint-disable-next-line react/jsx-props-no-spreading
             renderInput={(params) => <TextField {...params} />}
